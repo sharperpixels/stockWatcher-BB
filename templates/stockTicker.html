@@ -1,0 +1,41 @@
+<script type="text/template" id="stock_template">
+  <div id="<%= symbol %>" class="stock-ticker flex-row mr-20 mb-20 p-0 white-bg uppercase">
+    
+    <div class="hi-low-el flex-row no-flex p-20 <%= down ? 'down' : '' %>">
+      <i class="fa fa-play no-flex" aria-hidden="true" style="transform: translateY(<%= Math.max(0, (100 - (((close - low) / (high - low)) * 100) - 10)).toFixed(0) %>%);"></i>
+      
+      <span class="bar"></span>
+
+      <span class="hi-low flex-col text-xtra-small ml-10">
+        <span class="hi-price no-flex"><%= high.toFixed(2) %></span>
+        <span class="flex-col">&nbsp;</span>
+        <span class="low-price no-flex"><%= low.toFixed(2) %></span>
+      </span>
+
+    </div>
+  
+    <div class="can-row flex-col p-20">
+      
+      <div class="co can-col">
+        <div class="company no-text-wrap text-ellipsis"><%= company %></div>
+        <div class="symbol text-small caption"><%= symbol %></div>
+      </div>
+      
+      <div class="up-down can-col flex-row align-baseline mt-10">
+        <span class="close-price text-xtra-large"><%= close.toFixed(2) %></span>
+        <span class="change ml-10 text-small <%= down ? 'down' : '' %>">
+          <i class="fa fa-arrow-up mr-5" aria-hidden="true"></i>
+          <%= change.toFixed(2) %> (<%= percent.toFixed(2) %>%)
+        </span>
+      </div>
+      
+      <div class="dailys can-hide flex-row flex-wrap text-small mt-5">
+        <span class="mr-10"><span class="caption">open</span> <%= open.toFixed(2) %></span>
+        <span class="mr-10"><span class="caption">high</span> <%= high.toFixed(2) %></span>
+        <span class="mr-10"><span class="caption">low</span> <%= low.toFixed(2) %></span>
+      </div>
+
+    </div>
+    
+  </div>
+</script>

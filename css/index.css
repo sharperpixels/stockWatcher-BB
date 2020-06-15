@@ -1,0 +1,242 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+
+body {
+  background-color: rgb(250, 250, 250);
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #3E5769;
+}
+
+button {
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  line-height: 1;
+}
+
+input {
+  font-size: 1em;
+}
+
+.header {
+  font-size: 2em;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.button {
+  background-color: #284CC9;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.button .fa {
+  display: none;
+}
+
+.button.request>span {
+  margin-right: 10px;
+}
+
+.button.request .fa {
+  display: inherit;
+}
+
+#stock-search-wrapper,
+#stock-search-wrapper>div {
+  overflow: visible;
+}
+
+input,
+.button {
+  border-radius: 2px;
+}
+
+.company {
+  font-weight: 800;
+}
+
+.stock-ticker {
+  min-width: 400px;
+  width: 400px;
+  max-width: 400px;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.05);
+}
+
+
+.hi-low-el {
+  min-width: 60px;
+  width: 60px;
+  max-width: 60px;
+  color: #fff;
+  background: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#80000000', GradientType=0);
+  background-color: #6AF531;
+}
+
+.hi-low-el.down {
+  background-color: #EB5631;
+  color: #fff;
+}
+
+.hi-low-el .fa-play {
+  margin-top: -0.3em;
+}
+
+.hi-low-el .bar {
+  min-width: 2px;
+  width: 2px;
+  max-width: 2px;
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.25) 100%);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.25) 100%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.25) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#40ffffff', GradientType=0);
+}
+
+.change {
+  color: #299E00;
+}
+
+.change .fa.fa-arrow-up {
+  font-size: 0.8em;
+}
+
+.down .fa.fa-arrow-up,
+.hi-low-el.down .bar {
+  transform: rotate(180deg);
+}
+
+.close-price {
+  font-weight: 400;
+}
+
+.green {
+  color: #299E00;
+}
+
+.green-light {
+  color: #6AF531;
+}
+
+.green-dark {
+  color: #00A333;
+}
+
+.red,
+.down {
+  color: #BB0606;
+}
+
+.red-light {
+  color: #EB5631;
+}
+
+.red-dark {
+  color: #901700;
+}
+
+.titles {
+  color: #98A1A8;
+}
+
+.caption {
+  color: #919AA0;
+}
+
+#stock-search-wrapper .error-message {
+  display: none;
+}
+
+#stock-search-wrapper.error .error-message {
+  display: inherit;
+}
+
+@media (max-width: 1024px) {
+  body {
+    font-size: 1.2em;
+  }
+
+  #stock-results {
+    justify-content: space-between;
+  }
+
+  .stock-ticker {
+    width: 49%;
+    max-width: 49%;
+    margin-right: unset;
+  }
+
+  .stock-ticker .dailys {
+    max-width: 55%;
+  }
+}
+
+@media (max-width: 812px) {
+
+  .header,
+  #stock-search-wrapper,
+  #stock-results {
+    padding: 20px;
+  }
+
+  .header {
+    font-size: 1.8em;
+    padding-bottom: 10px;
+  }
+
+  #stock-search-wrapper {
+    padding-top: 0;
+  }
+
+  #stock-symbol {
+    flex: 1 1 auto;
+    min-width: 50%;
+  }
+
+  .error-message {
+    text-align: center;
+    justify-content: center;
+    font-size: 0.6em;
+    margin: 0;
+  }
+
+  .co {
+    max-width: 60%;
+  }
+
+  .hi-low-el {
+    display: none;
+  }
+
+  .can-hide {
+    display: none;
+  }
+
+  .can-row {
+    flex-direction: row;
+  }
+
+  .up-down {
+    text-align: right;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .up-down .text-xtra-large {
+    font-size: 1em;
+  }
+
+  .align-baseline {
+    display: inherit;
+  }
+
+  .stock-ticker {
+    min-width: 100%;
+    width: 100%;
+    max-width: 100%;
+  }
+}
