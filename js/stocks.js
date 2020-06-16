@@ -143,6 +143,16 @@ var StockSearchView = Backbone.View.extend({
     var content = this.stockTemplate(model.exportForTicker());
 
     this.$('#stock-results').append(content);
+
+    this.$('.stock-ticker').sort(function (a, b) {
+      var aName = $(a).attr('id').toLowerCase();
+      var bName = $(b).attr('id').toLowerCase();
+      if (aName < bName) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }).prependTo('#stock-results');
   },
 
   checkInput: function (e) {
