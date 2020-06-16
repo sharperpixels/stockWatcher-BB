@@ -1,18 +1,25 @@
 var StockSearchModel = Backbone.Model.extend({
-  url: 'https://www.alphavantage.co/query',
-
   defaults: function () {
     return {
-      function: 'TIME_SERIES_INTRADAY',
-      interval: '5min',
-      apikey: 'HY0JP87WH3PG17X6',
       symbol: ''
     };
   },
 });
 
+
+
+
 var StockModel = Backbone.Model.extend({
   url: 'https://www.alphavantage.co/query',
+
+  initialize: function () {
+    this.url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&interval=5min&apikey=HY0JP87WH3PG17X6&symbol=' + this.get('symbol');
+
+    var self = this;
+    setInterval(function () {
+      self.fetch();
+    }, 1001 * 60 * 5);
+  },
 
   defaults: function () {
     return {
@@ -26,7 +33,7 @@ var StockModel = Backbone.Model.extend({
     };
   },
 
-  parse: function (rawData, options) {
+  parse: function (rawData) {
     var theResult = {
       date: moment(),
       open: 0,
@@ -34,8 +41,6 @@ var StockModel = Backbone.Model.extend({
       low: 0,
       close: 0,
       volume: 0,
-      symbol: options.symbol,
-      company: options.company,
     }
 
     var rawArray = _.mapObject(rawData['Time Series (5min)'], function (val, key) {
@@ -77,10 +82,34 @@ var StockModel = Backbone.Model.extend({
   }
 });
 
+
+
+
 var StockCollection = Backbone.Collection.extend({
   model: StockModel,
 
   comparator: 'symbol'
+});
+
+
+
+
+var stockTickerView = Backbone.View.extend ({
+  attributes: {
+    class: 'tock-ticker flex-row mr-20 mb-20 p-0 white-bg uppercase',
+  },
+
+  initialize: function () {
+    this.template = _.template($('#stock_template').html());
+    this.listenTo(this.model, 'sync', this.render);
+  },
+
+  render: function () {
+    var data = this.model.exportForTicker();
+    var content = this.template(data);
+
+    $(this.el).html(content);
+  },
 });
 
 var StockSearchView = Backbone.View.extend({
@@ -93,7 +122,7 @@ var StockSearchView = Backbone.View.extend({
 
   initialize: function () {
     this.stockTemplate = _.template($('#stock_template').html());
-    this.searchModel = new StockSearchModel();
+    this.model = new StockSearchModel();
     this.listenTo(this.searchModel, 'request', this.requestMade);
     this.listenTo(this.collection, 'add', this.tickerAdded);
     this.render();
@@ -147,23 +176,16 @@ var StockSearchView = Backbone.View.extend({
       return
     }
 
-    this.searchModel.fetch({
+    var stockModel = new StockModel({symbol: symbol, company: company});
+    stockModel.fetch({
       data: {
         function: 'TIME_SERIES_INTRADAY',
         interval: '5min',
         apikey: 'HY0JP87WH3PG17X6',
         symbol: symbol
       },
-      success: function (searchModel, response, options) {
-        var newModel = new StockModel(searchModel.toJSON(), {
-          symbol: symbol,
-          company: company,
-          parse: true
-        });
-        self.collection.add(newModel);
-        searchModel.set({
-          symbol: ''
-        });
+      success: function (model, response, options) {
+        self.collection.add(model);
       },
       error: function (response) {
         self.onError(response);
