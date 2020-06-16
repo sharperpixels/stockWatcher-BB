@@ -123,7 +123,6 @@ var StockSearchView = Backbone.View.extend({
   initialize: function () {
     this.stockTemplate = _.template($('#stock_template').html());
     this.model = new StockSearchModel();
-    this.listenTo(this.searchModel, 'request', this.requestMade);
     this.listenTo(this.collection, 'add', this.tickerAdded);
     this.render();
   },
@@ -176,6 +175,8 @@ var StockSearchView = Backbone.View.extend({
       return
     }
 
+    this.addButton.addClass('request');
+
     var stockModel = new StockModel({symbol: symbol, company: company});
     stockModel.fetch({
       data: {
@@ -185,9 +186,11 @@ var StockSearchView = Backbone.View.extend({
         symbol: symbol
       },
       success: function (model, response, options) {
+        self.addButton.removeClass('request');
         self.collection.add(model);
       },
       error: function (response) {
+        self.addButton.removeClass('request');
         self.onError(response);
       }
     });
@@ -197,8 +200,4 @@ var StockSearchView = Backbone.View.extend({
     this.addButton.removeClass('request');
     this.$('#stock-search-wrapper').addClass('error');
   },
-
-  requestMade: function () {
-    this.addButton.addClass('request');
-  }
 });
