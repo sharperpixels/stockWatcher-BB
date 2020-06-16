@@ -56,7 +56,7 @@ var StockModel = Backbone.Model.extend({
     var sortedArr = _.sortBy(rawArray, function (obj) {
       return obj.date.unix();
     });
-    
+
     var tradingDay = _.last(sortedArr).date.startOf('day').unix();
 
     var theDaysRecords = _.filter(sortedArr, function (obj) {
@@ -67,7 +67,7 @@ var StockModel = Backbone.Model.extend({
     theResult.close = _.last(theDaysRecords).close;
     theResult.low = _.min(_.pluck(theDaysRecords, 'low'));
     theResult.high = _.max(_.pluck(theDaysRecords, 'high'));
-    
+
     return theResult;
   },
 
@@ -94,7 +94,7 @@ var StockCollection = Backbone.Collection.extend({
 
 
 
-var stockTickerView = Backbone.View.extend ({
+var stockTickerView = Backbone.View.extend({
   attributes: {
     class: 'tock-ticker flex-row mr-20 mb-20 p-0 white-bg uppercase',
   },
@@ -164,7 +164,7 @@ var StockSearchView = Backbone.View.extend({
       symbol = this.$('#stock-symbol').val().trim().toUpperCase(),
       company = this.stockTickers[symbol];
 
-    if (this.collection.findWhere({
+    if (symbol === '' || this.collection.findWhere({
         symbol: symbol
       })) {
       return;
@@ -177,7 +177,10 @@ var StockSearchView = Backbone.View.extend({
 
     this.addButton.addClass('request');
 
-    var stockModel = new StockModel({symbol: symbol, company: company});
+    var stockModel = new StockModel({
+      symbol: symbol,
+      company: company
+    });
     stockModel.fetch({
       data: {
         function: 'TIME_SERIES_INTRADAY',
