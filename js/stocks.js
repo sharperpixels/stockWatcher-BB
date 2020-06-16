@@ -43,6 +43,10 @@ var StockModel = Backbone.Model.extend({
       volume: 0,
     }
 
+    if (!rawData['Time Series (5min)']) {
+      return false;
+    }
+
     var rawArray = _.mapObject(rawData['Time Series (5min)'], function (val, key) {
       return {
         date: moment(key, 'YYYY-MM-DD HH:mm:ss'),
@@ -189,6 +193,12 @@ var StockSearchView = Backbone.View.extend({
         symbol: symbol
       },
       success: function (model, response, options) {
+        console.log(model.toJSON());
+        console.log(response);
+        if (!model.get('close')) {
+          self.onError();
+          return;
+        }
         self.addButton.removeClass('request');
         self.collection.add(model);
       },
